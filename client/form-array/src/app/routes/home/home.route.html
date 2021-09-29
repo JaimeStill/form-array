@@ -1,0 +1,34 @@
+<ng-template #loading>
+  <mat-progress-bar mode="indeterminate"
+                    color="accent"></mat-progress-bar>
+</ng-template>
+<section fxLayout="row"
+         fxLayoutAlign="start stretch">
+  <section fxLayout="column"
+           fxLayoutAlign="start stretch"
+           class="p8">
+    <p class="mat-title bold m4">Folders</p>
+    <ng-container *ngIf="folderSvc.folders$ | async as folders else loading">
+      <ng-container *ngIf="folders?.length > 0">
+        <folder-card *ngFor="let f of folders"
+                     [folder]="f"
+                     [selected]="selected(f)"
+                     (select)="selectFolder($event)"
+                     (remove)="removeFolder($event)"></folder-card>
+      </ng-container>
+      <p *ngIf="!(folders?.length > 0)"
+         class="mat-subheading-2 m4 color-warn">
+        No Folders Available
+      </p>
+    </ng-container>
+  </section>
+  <section fxLayout="column"
+           fxLayoutAlign="start stretch"
+           class="p8"
+           fxFlex>
+    <p class="mat-title bold m4">Folder Editor</p>
+    <folder-editor class="m4"
+                   [data]="folder"
+                   (update)="refresh()"></folder-editor>
+  </section>
+</section>

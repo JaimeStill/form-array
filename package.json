@@ -1,0 +1,52 @@
+{
+  "name": "form-array",
+  "version": "0.0.1",
+  "scripts": {
+    "ng": "ng",
+    "build": "ng build core --configuration development",
+    "restore": "dotnet restore ./server -s ./server/nuget-packages",
+    "seed": "dotnet run --project ./server/dbseeder -- \"Server=.\\DevSql;Database=form-array-dev;Trusted_Connection=True;\"",
+    "start:docs": "ng serve docs --configuration development",
+    "start:form-array": "ng serve form-array --configuration development",
+    "start:server": "dotnet run --project ./server/FormArray.Web",
+    "update-db": "dotnet ef database update -s ./server/FormArray.Web",
+    "watch": "ng build core --watch --configuration development",
+    "watch:server": "dotnet watch run --project ./server/FormArray.Web"
+  },
+  "dependencies": {
+    "@angular/animations": "^12.2.4",
+    "@angular/cdk": "^12.2.4",
+    "@angular/common": "^12.2.4",
+    "@angular/compiler": "^12.2.4",
+    "@angular/core": "^12.2.4",
+    "@angular/flex-layout": "^12.0.0-beta.34",
+    "@angular/forms": "^12.2.4",
+    "@angular/material": "^12.2.4",
+    "@angular/platform-browser": "^12.2.4",
+    "@angular/platform-browser-dynamic": "^12.2.4",
+    "@angular/router": "^12.2.4",
+    "@microsoft/signalr": "^5.0.9",
+    "hammerjs": "^2.0.8",
+    "marked": "^3.0.2",
+    "prismjs": "^1.24.1",
+    "rxjs": "^7.3.0",
+    "tslib": "^2.3.1",
+    "zone.js": "^0.11.4"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^12.2.4",
+    "@angular/cli": "^12.2.4",
+    "@angular/compiler-cli": "^12.2.4",
+    "@angular/language-service": "^12.2.4",
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "@types/marked": "^3.0.0",
+    "@types/node": "^16.7.10",
+    "@types/prismjs": "^1.16.6",
+    "esbuild-windows-64": "^0.12.19",
+    "ng-packagr": "^12.2.1",
+    "prism-themes": "^1.8.0",
+    "roboto-fontface": "^0.10.0",
+    "ts-node": "^10.2.1",
+    "typescript": "4.3.2"
+  }
+}

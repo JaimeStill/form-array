@@ -1,0 +1,33 @@
+<section fxLayout="column"
+         fxLayoutAlign="start stretch"
+         class="m4 elevated rounded"
+         [ngClass]="selected ? 'card-outline-primary' : 'card-outline-accent'"
+         [style.width.px]="size">
+  <section fxLayout="row"
+           fxLayoutAlign="start center"
+           class="p4">
+    <p class="m4"
+       fxFlex>{{folder.name}}</p>
+    <button mat-icon-button
+            color="warn"
+            matTooltip="Remove"
+            (click)="remove.emit(folder)">
+      <mat-icon>delete_outlined</mat-icon>
+    </button>
+    <button mat-icon-button
+            (click)="select.emit(folder)">
+      <mat-icon *ngIf="selected"
+                matTooltip="Deselect"
+                class="color-primary">radio_button_checked</mat-icon>
+      <mat-icon *ngIf="!(selected)"
+                matTooltip="Select">radio_button_unchecked</mat-icon>
+    </button>
+  </section>
+  <ng-container *ngIf="folder?.notes?.length > 0">
+    <p *ngFor="let note of folder.notes"
+       class="m4"
+       [matTooltip]="note.value">{{note.title}}</p>
+  </ng-container>
+  <p *ngIf="!(folder?.notes?.length > 0)"
+     class="m4 mat-body-strong">No Notes Available</p>
+</section>
