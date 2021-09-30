@@ -46,6 +46,10 @@ export class FolderForm implements OnDestroy {
   @Input() set data (data: FormGroup) {
     this.form = data;
     this.registerValidator();
+
+    this.notes
+      .valueChanges
+      .subscribe(() => this.form.controls.notes = this.notes);
   }
 
   @Output() add = new EventEmitter();

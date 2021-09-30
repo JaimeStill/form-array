@@ -37,7 +37,7 @@ export class FolderEditorComponent {
   }
 
   @Input() label = 'Folder';
-  @Input() size = 360;
+  @Input() size = 420;
   @Output() update = new EventEmitter();
 
   constructor(
@@ -70,10 +70,6 @@ export class FolderEditorComponent {
     this.form
       .valueChanges
       .subscribe((folder: Folder) => this.state.updateState(folder));
-
-    this.notes
-      .valueChanges
-      .subscribe(() => this.form.controls.notes = this.notes);
   }
 
   clearCache = () => {
