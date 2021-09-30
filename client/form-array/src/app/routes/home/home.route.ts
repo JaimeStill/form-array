@@ -1,5 +1,6 @@
 import {
   Component,
+  OnDestroy,
   OnInit
 } from '@angular/core';
 
@@ -10,12 +11,14 @@ import {
 } from 'core';
 
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'home-route',
   templateUrl: 'home.route.html'
 })
-export class HomeRoute implements OnInit {
+export class HomeRoute implements OnInit, OnDestroy {
+  private sub: Subscription;
   folder: Folder;
 
   constructor(
@@ -33,6 +36,15 @@ export class HomeRoute implements OnInit {
   ngOnInit() {
     this.refresh();
     this.folder = this.new();
+
+    this.sub = this.folderSvc.folders$.subscribe(folders => {
+      if (folders?.length > 0 && this.folder?.id > 0)
+        this.folder = folders.find(f => f.id === this.folder.id)
+    })
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
   }
 
   selected = (f: Folder) => f?.id === this.folder?.id;
@@ -42,7 +54,10 @@ export class HomeRoute implements OnInit {
       ? this.new()
       : f;
 
-  refresh = () => this.folderSvc.getFolders();
+  refresh = (f: Folder = null) => {
+    if (f && this.selected(f)) this.selectFolder(f);
+    this.folderSvc.getFolders();
+  }
 
   removeFolder = (f: Folder) => f && this.dialog.open(ConfirmDialog, {
     data: {
@@ -52,14 +67,11 @@ export class HomeRoute implements OnInit {
     disableClose: true,
     autoFocus: false
   })
-  .afterClosed()
-  .subscribe(async result => {
-    if (result) {
-      const res = await this.folderSvc.removeFolder(f);
-      if (res) {
-        if (this.selected(f)) this.selectFolder(f);
-        this.refresh();
+    .afterClosed()
+    .subscribe(async result => {
+      if (result) {
+        const res = await this.folderSvc.removeFolder(f);
+        res && this.refresh(f);
       }
-    }
-  })
+    })
 }

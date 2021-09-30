@@ -67,6 +67,7 @@ namespace FormArray.Data.Extensions
 
         public static async Task RemoveFolder(this AppDbContext db, Folder folder)
         {
+            folder.ClearNavProps();
             db.Notes.RemoveRange(db.Notes.Where(x => x.FolderId == folder.Id));
             db.Folders.Remove(folder);
             await db.SaveChangesAsync();
@@ -85,7 +86,7 @@ namespace FormArray.Data.Extensions
             var removeNotes = await db.Notes
                 .Where(x =>
                     x.FolderId == folderId
-                    && !noteIds.Contains(x.Id)
+                    && !notes.Select(x => x.Id).Contains(x.Id)
                 )
                 .ToListAsync();
 

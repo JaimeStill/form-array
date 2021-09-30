@@ -45,7 +45,6 @@ export class FolderForm implements OnDestroy {
 
   @Input() set data (data: FormGroup) {
     this.form = data;
-    console.log(this.form);
     this.registerValidator();
   }
 

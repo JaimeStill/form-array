@@ -31,7 +31,7 @@ export class FolderEditorComponent {
   state: StorageState<Folder>;
   form: FormGroup;
 
-  @Input() set data (data: Folder) {
+  @Input() set data(data: Folder) {
     this.folder = data;
     this.load();
   }
@@ -45,13 +45,15 @@ export class FolderEditorComponent {
     public folderSvc: FolderService
   ) { }
 
+  get notes() { return this.form.get('notes') as FormArray }
+
   private initNotes = (folder: Folder) => {
-    if ((this.form.controls.notes as FormArray).length > 0)
-      (this.form.controls.notes as FormArray).clear();
+    if (this.notes.length > 0)
+      this.notes.clear();
 
     if (folder.notes?.length > 0)
       for (const note of folder.notes)
-      (this.form.controls.notes as FormArray).push(GenerateNoteForm(note, this.fb));
+        this.notes.push(GenerateNoteForm(note, this.fb));
   }
 
   private load = () => {
@@ -68,6 +70,10 @@ export class FolderEditorComponent {
     this.form
       .valueChanges
       .subscribe((folder: Folder) => this.state.updateState(folder));
+
+    this.notes
+      .valueChanges
+      .subscribe(() => this.form.controls.notes = this.notes);
   }
 
   clearCache = () => {
@@ -76,13 +82,13 @@ export class FolderEditorComponent {
     this.state.clearState();
   }
 
-  addNote = () => (this.form.controls.notes as FormArray).push(GenerateNoteForm({folderId: this.form?.value?.id} as Note, this.fb));
+  addNote = () => this.notes.push(GenerateNoteForm({ folderId: this.form?.value?.id } as Note, this.fb));
 
-  removeNote = (i: number) => (this.form.controls.notes as FormArray).removeAt(i);
+  removeNote = (i: number) => this.notes.removeAt(i);
 
   save = async () => {
     if (this.form?.valid) {
-      console.log(this.form);
+      console.log(this.form.value);
 
       const res = await this.folderSvc.saveFolder(this.form.value);
 
