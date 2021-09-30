@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 using FormArray.Core;
-using FormArray.Core.ApiQuery;
 using FormArray.Data.Entities;
 
 namespace FormArray.Data.Extensions

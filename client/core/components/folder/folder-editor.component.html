@@ -2,19 +2,21 @@
          fxLayoutAlign="start stretch"
          class="p8 elevated rounded card-outline-accent"
          [style.width.px]="size">
-  <folder-form [data]="form"
+  <folder-form class="m4"
+               [data]="form"
                (add)="addNote()"
                (remove)="removeNote($event)"></folder-form>
   <section fxLayout="row"
-           fxLayoutAlign="end center">
+           fxLayoutAlign="end center"
+           fxLayoutGap="16px"
+           class="p8">
     <button mat-stroked-button
-            class="mx4"
             [disabled]="!(state.hasState)"
             (click)="clearCache()">
       Clear Cache
     </button>
     <button mat-stroked-button
-            class="color-primary mx4"
+            class="color-primary"
             [disabled]="form?.invalid"
             (click)="save()">
       Save Folder
